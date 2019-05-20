@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 eval BRANCH_NAME=""
-eval HEAD_SHA_BRANCH=""
-eval SHA_2="HEAD"
 eval DIRECTORY="tmp"
+eval HEAD_SHA_BRANCH=""
 
 show_help() {
     echo "Usage: affected-folder.sh"
@@ -38,10 +37,6 @@ if [[ "$FOLDER_NAME" == "" ]]
 then
     echo "The folder name is mandatory"
     exit 0
-fi
-
-if [ ! -f ./$DIRECTORY/devhead.txt ]; then
-    git merge-base origin/$BRANCH_NAME HEAD > ./$DIRECTORY/devhead.txt
 fi
 
 HEAD_SHA_BRANCH="$(git merge-base origin/$BRANCH_NAME HEAD)"

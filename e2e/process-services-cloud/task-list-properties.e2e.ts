@@ -298,7 +298,7 @@ describe('Edit task filters and task list properties', () => {
             tasksCloudDemoPage.editTaskFilterCloudComponent().setLastModifiedFrom(beforeDate);
             tasksCloudDemoPage.taskListCloudComponent().checkContentIsDisplayedByName(createdTask.entry.name);
 
-            tasksCloudDemoPage.editTaskFilterCloudComponent().setLastModifiedFrom(afterDate);
+            tasksCloudDemoPage.editTaskFilterCloudComponent().setLastModifiedTo(afterDate);
             tasksCloudDemoPage.taskListCloudComponent().checkContentIsNotDisplayedByName(createdTask.entry.name);
         });
 
@@ -314,7 +314,7 @@ describe('Edit task filters and task list properties', () => {
             tasksCloudDemoPage.myTasksFilter().checkTaskFilterIsDisplayed();
             expect(tasksCloudDemoPage.getActiveFilterName()).toBe('My Tasks');
 
-            tasksCloudDemoPage.editTaskFilterCloudComponent().setLastModifiedTo(afterDate);
+            tasksCloudDemoPage.editTaskFilterCloudComponent().setLastModifiedFrom(afterDate);
             tasksCloudDemoPage.taskListCloudComponent().checkContentIsDisplayedByName(createdTask.entry.name);
 
             tasksCloudDemoPage.editTaskFilterCloudComponent().setLastModifiedTo(beforeDate);
@@ -556,11 +556,9 @@ describe('Edit task filters and task list properties', () => {
             tasksCloudDemoPage.taskListCloudComponent().getDataTable().checkSpinnerIsDisplayed();
             tasksCloudDemoPage.taskListCloudComponent().getDataTable().checkSpinnerIsNotDisplayed();
             tasksCloudDemoPage.taskListCloudComponent().getAllRowsByPriorityColumn().then((list) => {
+                list = list.map(Number);
                 const initialList = list.slice(0);
-                list.sort(function (firstStr, secondStr) {
-                    return firstStr.localeCompare(secondStr);
-                });
-                list.reverse();
+                list.sort((a, b) => b - a);
                 expect(JSON.stringify(initialList) === JSON.stringify(list)).toEqual(true);
             });
         });
